@@ -10,7 +10,6 @@ export default function AnimeInfo() {
   const id = state.id;
   const image = state.image;
   const description = state.description;
-  const [exist, setExist] = useState(1);
 
   return (
     <div className="flex flex-row justify-center items-start w-full h-full bg-dark text-white">
