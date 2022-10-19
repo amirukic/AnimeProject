@@ -14,7 +14,7 @@ export default function AnimeInfo() {
   return (
     <div className="flex flex-row justify-center items-start w-full h-full bg-dark text-white">
       <div className="flex flex-col w-1/4 justify-center items-center pt-4">
-        <img className="rounded-lg w-64 cursor-pointer" src={image} />
+        <img className="rounded-lg w-64 cursor-pointer" src={image} alt=''/>
       </div>
       <div className="flex flex-col w-3/4 pt-4 gap-5 h-full">
         <div>
@@ -24,7 +24,7 @@ export default function AnimeInfo() {
         </div>
         <div>
           <Link to="/anime">
-            {favItems.find((el) => el.id === id && el.title === title) ? (
+          {favItems.find((el) => el.id === id && el.title === title) ? (
               <button
                 className="bg-transparent py-2 px-4 font-semibold border hover:scale-105 hover:border-2 transition ease-out rounded"
                 onClick={() => removeFromFav(state.id, state.title)}

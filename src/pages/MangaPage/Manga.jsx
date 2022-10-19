@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/scroll/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { createGlobalStyle } from "styled-components";
+import ToTop from "../../components/ToTop/ToTop";
 
 //style
 
@@ -27,7 +28,9 @@ function Manga() {
   let naziv = "";
   let pomeraj = 0;
   const navigate = useNavigate();
-  const { state } = useLocation()
+  const { state } = useLocation();
+  const [hasMore, setHasMore] = useState(true);
+  const [promena, setPromena] = useState(true);
 
   async function getManga() {
     let res;
@@ -53,6 +56,11 @@ function Manga() {
     }
     const data = await res.json();
     setManga((prevValue) => [...prevValue, ...data.data]);
+    if (data.data.length === 0) {
+      setPromena(false);
+    } else {
+      setPromena(true);
+    }
   }
 
   useEffect(() => {
@@ -60,8 +68,13 @@ function Manga() {
       setCategory(state.category);
       kategorija = state.category;
     }
+    window.scrollTo({top: 0});
     getManga();
   }, []);
+
+  useEffect(() => {
+      promena === true ? setHasMore(true) : setHasMore(false);
+  }, [promena]);
 
   useEffect(() => {
     setOffset(offset + 20);
@@ -76,6 +89,7 @@ function Manga() {
       <div className="w-full flex justify-around">
         <select
           id="default"
+          value={category}
           className="bg-dark h-10 w-4/12 border border-white text-grayish rounded-lg my-auto ml-5"
           onChange={(e) => {
             kategorija = e.target.value;
@@ -113,7 +127,7 @@ function Manga() {
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                className="w-5 h-5 text-white dark:text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -130,7 +144,7 @@ function Manga() {
             <input
               type="search"
               id="search"
-              className="block h-10 pl-10 w-full text-sm text-gray-900 bg-dark rounded-lg border border-gray-300"
+              className="block h-10 pl-10 w-full text-sm text-gray-900 border-white bg-dark rounded-lg border border-gray-300"
               placeholder="Search"
               required=""
               onChange={(e) => {
@@ -145,10 +159,16 @@ function Manga() {
 
       <InfiniteScroll
         dataLength={manga.length}
-        next={() => getManga()}
-        hasMore={true}
+        next={getManga}
+        hasMore={hasMore}
         loader={<Loader className=" bg-dark" />}
+        endMessage={
+          <p className="text-center text-white">
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
       >
+        <ToTop/>
         <div className="flex flex-wrap gap-8 justify-center bg-dark py-10">
           {manga.map((manga) => (
             <div
