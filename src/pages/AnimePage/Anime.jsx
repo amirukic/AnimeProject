@@ -186,6 +186,7 @@ function Anime() {
                     title: anime.attributes.canonicalTitle,
                     description: anime.attributes.description,
                     type: anime.type,
+                    trailer: anime.attributes.youtubeVideoId,
                   },
                 });
               }}

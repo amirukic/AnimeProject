@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { FavoritesList } from "../../components/Context/Context";
 import { Link } from "react-router-dom";
+import YoutubeEmbed from "../../components/Youtube/Trailer"
+
 
 export default function AnimeInfo() {
   const { addToFavorites, removeFromFav, favItems } = useContext(FavoritesList);
@@ -10,6 +12,8 @@ export default function AnimeInfo() {
   const id = state.id;
   const image = state.image;
   const description = state.description;
+  const trailer = state.trailer;
+  
 
   return (
     <div className="flex flex-row justify-center items-start w-full h-full bg-dark text-white">
@@ -41,6 +45,7 @@ export default function AnimeInfo() {
             )}
           </Link>
         </div>
+        <YoutubeEmbed trailer={trailer}/>
       </div>
     </div>
   );
